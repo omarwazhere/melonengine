@@ -15,7 +15,10 @@ class Entity {
     public:
         Entity(std::string n, int startx, int starty, bool is_solid, char Symbol);
 
-        virtual void update() = 0;
+        void getPosition(int &outX, int &outY);
+        char getSymbol();
+
+        virtual void update() {};
 
         virtual ~Entity() = default;
 };

@@ -8,6 +8,15 @@ char Symbol)
     pos.y = starty;
 }
 
+void Entity::getPosition(int &outX, int &outY) {
+    outX = pos.x;
+    outY = pos.y;
+}
+
+char Entity::getSymbol() {
+    return symbol;
+}
+
 void MovingEntity::move() {
     pos.x += velocity.velx;
     pos.y += velocity.vely;
