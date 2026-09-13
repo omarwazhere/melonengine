@@ -20,6 +20,8 @@ char Entity::getSymbol() {
 void MovingEntity::move() {
     pos.x += velocity.velx;
     pos.y += velocity.vely;
+    velocity.velx = 0; // For testing, resistance physics later
+    velocity.vely = 0; // too
 }
 
 MovingEntity::MovingEntity(std::string n, int startx, int starty, float resistance, bool is_solid,
@@ -50,6 +52,6 @@ void Player::update() {
         velocity.velx -= 1;
     }
 
-    velocity.velx *= velocity.resistance;
+    // velocity.velx *= velocity.resistance; Commented for testing
     move();
 }

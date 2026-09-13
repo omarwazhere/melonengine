@@ -28,9 +28,9 @@ class World {
 
 class SinglePlayer : public World {
     private:
-        Player player;
+        Player *player;
     public:
-        SinglePlayer(unsigned int Size, const unsigned int Render_dist, Player &Player, 
+        SinglePlayer(unsigned int Size, const unsigned int Render_dist, Player &Player,
         char Air, std::vector<Entity> entities);
 
         void render(position camera) override;

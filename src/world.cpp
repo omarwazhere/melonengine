@@ -3,8 +3,8 @@
 
 #include "../include/world.h"
 
-std::vector<std::vector<char>> basicRender(position camera, World *world);
-void display(std::vector<std::vector<char>> world);
+std::vector<std::vector<char> > basicRender(position camera, World *world);
+void display(std::vector<std::vector<char> > world);
 
 World::World(unsigned int Size, const unsigned int Render_dist, char Air,
 std::vector<Entity> entities)
@@ -26,16 +26,16 @@ char World::getAir() {
     return air;
 }
 
-SinglePlayer::SinglePlayer(unsigned int Size, const unsigned int Render_dist, Player &Player,
-char Air, std::vector<Entity> entities) 
-: World(Size, Render_dist, Air, entities), player(Player) {}
+SinglePlayer::SinglePlayer(unsigned int Size, const unsigned int Render_dist, Player &playerRef,
+char Air, std::vector<Entity> entities)
+: World(Size, Render_dist, Air, entities), player(&playerRef) {}
 
 void SinglePlayer::render(position camera) {
-    std::vector<std::vector<char>> buffer = basicRender(camera, this);
+    std::vector<std::vector<char> > buffer = basicRender(camera, this);
     int playerx, playery;
-    char symbol = player.getSymbol();
-    player.getPosition(playerx, playery);
-    buffer[playerx][playery] = symbol;
+    char symbol = player->getSymbol();
+    player->getPosition(playerx, playery);
+    buffer[playery][playerx] = symbol;
     display(buffer);
 }
 
@@ -43,34 +43,39 @@ MultiPlayer::MultiPlayer(unsigned int Size, const unsigned int Render_dist,
     std::vector<Player> &Players, char Air, std::vector<Entity> entities)
 : World(Size, Render_dist, Air, entities), players(Players) {}
 
-std::vector<std::vector<char>> basicRender(position camera, World *world) {
-    // UNFINISHED
-    unsigned int size = world->getSize();
+std::vector<std::vector<char> > basicRender(position camera, World *world) {
     unsigned int render_dist = world->getRenderDist();
     char air = world->getAir();
-    std::vector entities = world->getEntities();
-    const unsigned int tiles = render_dist * render_dist;
-    std::vector<std::vector<char>> buffer(tiles, std::vector<char>(tiles, air));
+    std::vector<Entity> entities = world->getEntities();
+    const unsigned int tiles = render_dist * 2;
+    std::vector<std::vector<char> > buffer(tiles, std::vector<char>(tiles, air));
 
     int screenX, screenY, posX, posY;
     char symbol;
-    for (Entity &current : entities) {
+    for (size_t i = 0; i < entities.size(); ++i) {
+        Entity &current = entities[i];
         current.getPosition(posX, posY);
-        screenX =  posX - (camera.x - render_dist);
-        screenY =  posY - (camera.y - render_dist);
+        screenX = posX - (camera.x - static_cast<int>(render_dist));
+        screenY = posY - (camera.y - static_cast<int>(render_dist));
 
-        if (screenX >= 0 && screenY < size && screenX >= 0 && screenX < size) {
+        if (screenX >= 0 && screenY >= 0 &&
+            screenX < static_cast<int>(tiles) &&
+            screenY < static_cast<int>(tiles)) {
             symbol = current.getSymbol();
-            buffer[screenX][screenY] = symbol;
+            buffer[screenY][screenX] = symbol;
         }
     }
 
     return buffer;
 }
 
-void display(std::vector<std::vector<char>> world) {
-    for (const auto &line : world) {
-        for (char currentSymbol : line) {
+void display(std::vector<std::vector<char> > world) {
+    std::vector<char> line;
+    char currentSymbol;
+    for (size_t i = 0; i < world.size(); ++i) {
+        line = world[i];
+        for (size_t j = 0; j < line.size(); ++j) {
+            currentSymbol = line[j];
             std::cout << currentSymbol;
         }
         std::cout << '\n';
