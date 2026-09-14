@@ -8,12 +8,12 @@ char Symbol)
     pos.y = starty;
 }
 
-void Entity::getPosition(int &outX, int &outY) {
+void Entity::getPosition(int &outX, int &outY) const {
     outX = pos.x;
     outY = pos.y;
 }
 
-char Entity::getSymbol() {
+char Entity::getSymbol() const {
     return symbol;
 }
 

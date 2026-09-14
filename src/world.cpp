@@ -3,7 +3,7 @@
 
 #include "../include/world.h"
 
-std::vector<std::vector<char> > basicRender(position camera, World *world);
+std::vector<std::vector<char>> basicRender(position camera, World *world);
 void display(std::vector<std::vector<char> > world);
 
 World::World(unsigned int Size, const unsigned int Render_dist, char Air,
@@ -31,11 +31,17 @@ char Air, std::vector<Entity> entities)
 : World(Size, Render_dist, Air, entities), player(&playerRef) {}
 
 void SinglePlayer::render(position camera) {
-    std::vector<std::vector<char> > buffer = basicRender(camera, this);
+    std::vector<std::vector<char>> buffer = basicRender(camera, this);
     int playerx, playery;
     char symbol = player->getSymbol();
     player->getPosition(playerx, playery);
-    buffer[playery][playerx] = symbol;
+
+    int screenX = playerx - (camera.x - static_cast<int>(getRenderDist()));
+    int screenY = playery - (camera.y - static_cast<int>(getRenderDist()));
+    if (screenY >= 0 && static_cast<size_t>(screenY) < buffer.size()
+        && screenX >= 0 && static_cast<size_t>(screenX) < buffer[screenY].size()) {
+        buffer[screenY][screenX] = symbol;
+    }
     display(buffer);
 }
 
@@ -43,26 +49,29 @@ MultiPlayer::MultiPlayer(unsigned int Size, const unsigned int Render_dist,
     std::vector<Player> &Players, char Air, std::vector<Entity> entities)
 : World(Size, Render_dist, Air, entities), players(Players) {}
 
-std::vector<std::vector<char> > basicRender(position camera, World *world) {
+std::vector<std::vector<char>> basicRender(position camera, World *world) {
+    if (!world) return {};
+
     unsigned int render_dist = world->getRenderDist();
     char air = world->getAir();
+    
+    const size_t tiles = static_cast<size_t>(render_dist) * 2 + 1;
+    std::vector<std::vector<char>> buffer(tiles, std::vector<char>(tiles, air));
+
+    int posX{}, posY{};
     std::vector<Entity> entities = world->getEntities();
-    const unsigned int tiles = render_dist * 2;
-    std::vector<std::vector<char> > buffer(tiles, std::vector<char>(tiles, air));
 
-    int screenX, screenY, posX, posY;
-    char symbol;
-    for (size_t i = 0; i < entities.size(); ++i) {
-        Entity &current = entities[i];
+    for (auto& current : entities) {
         current.getPosition(posX, posY);
-        screenX = posX - (camera.x - static_cast<int>(render_dist));
-        screenY = posY - (camera.y - static_cast<int>(render_dist));
 
-        if (screenX >= 0 && screenY >= 0 &&
-            screenX < static_cast<int>(tiles) &&
-            screenY < static_cast<int>(tiles)) {
-            symbol = current.getSymbol();
-            buffer[screenY][screenX] = symbol;
+        int screenX = posX - (camera.x - static_cast<int>(render_dist));
+        int screenY = posY - (camera.y - static_cast<int>(render_dist));
+
+        // Strict boundary check before indexing outer vector (row) and inner vector (col)
+        if (screenY >= 0 && static_cast<size_t>(screenY) < buffer.size()) {
+            if (screenX >= 0 && static_cast<size_t>(screenX) < buffer[screenY].size()) {
+                buffer[screenY][screenX] = current.getSymbol();
+            }
         }
     }
 

@@ -15,8 +15,8 @@ class Entity {
     public:
         Entity(std::string n, int startx, int starty, bool is_solid, char Symbol);
 
-        void getPosition(int &outX, int &outY);
-        char getSymbol();
+        void getPosition(int &outX, int &outY) const;
+        char getSymbol() const;
 
         virtual void update() {};
 
