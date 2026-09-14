@@ -40,7 +40,7 @@ void SinglePlayer::render(position camera) {
     int screenY = playery - (camera.y - static_cast<int>(getRenderDist()));
     if (screenY >= 0 && static_cast<size_t>(screenY) < buffer.size()
         && screenX >= 0 && static_cast<size_t>(screenX) < buffer[screenY].size()) {
-        buffer[screenY][screenX] = symbol;
+        buffer[buffer.size() - screenY][screenX] = symbol;
     }
     display(buffer);
 }
@@ -70,7 +70,7 @@ std::vector<std::vector<char>> basicRender(position camera, World *world) {
         // Strict boundary check before indexing outer vector (row) and inner vector (col)
         if (screenY >= 0 && static_cast<size_t>(screenY) < buffer.size()) {
             if (screenX >= 0 && static_cast<size_t>(screenX) < buffer[screenY].size()) {
-                buffer[screenY][screenX] = current.getSymbol();
+                buffer[buffer.size() - screenY][screenX] = current.getSymbol();
             }
         }
     }
@@ -78,7 +78,7 @@ std::vector<std::vector<char>> basicRender(position camera, World *world) {
     return buffer;
 }
 
-void display(std::vector<std::vector<char> > world) {
+void display(std::vector<std::vector<char>> world) {
     std::vector<char> line;
     char currentSymbol;
     for (size_t i = 0; i < world.size(); ++i) {
@@ -87,6 +87,7 @@ void display(std::vector<std::vector<char> > world) {
             currentSymbol = line[j];
             std::cout << currentSymbol;
         }
+        line.clear();
         std::cout << '\n';
     }
 }

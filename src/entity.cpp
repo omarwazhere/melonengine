@@ -1,3 +1,4 @@
+#include <cmath>
 #include "..\include\entity.h"
 #include <SFML/Graphics.hpp>
 
@@ -9,8 +10,8 @@ char Symbol)
 }
 
 void Entity::getPosition(int &outX, int &outY) const {
-    outX = pos.x;
-    outY = pos.y;
+    outX = round(pos.x);
+    outY = round(pos.y);
 }
 
 char Entity::getSymbol() const {
@@ -20,8 +21,10 @@ char Entity::getSymbol() const {
 void MovingEntity::move() {
     pos.x += velocity.velx;
     pos.y += velocity.vely;
-    velocity.velx = 0; // For testing, resistance physics later
-    velocity.vely = 0; // too
+
+    // Apply resistance after movement so velocity gradually decays.
+    velocity.velx *= velocity.resistance;
+    velocity.vely *= velocity.resistance;
 }
 
 MovingEntity::MovingEntity(std::string n, int startx, int starty, float resistance, bool is_solid,
@@ -37,21 +40,21 @@ char Symbol)
 
 void Player::update() {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
-        velocity.vely += 1;
+        velocity.vely += 1.0;
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
-        velocity.vely -= 1;
+        velocity.vely -= 1.0;
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
-        velocity.velx += 1;
+        velocity.velx += 1.0;
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
-        velocity.velx -= 1;
+        velocity.velx -= 1.0;
     }
 
-    // velocity.velx *= velocity.resistance; Commented for testing
+    
     move();
 }
