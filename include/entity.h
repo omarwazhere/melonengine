@@ -20,12 +20,13 @@ class Entity {
         std::string name;
         char symbol;
         position pos;
-        bool is_solid; // TODO: add collision detection for solid entities 
+        bool is_solid; 
     public:
         Entity(std::string n, int startx, int starty, bool is_solid, char Symbol);
 
         void getPosition(int &outX, int &outY) const;
         char getSymbol() const;
+        bool check_solid();
 
         virtual void update() {};
 

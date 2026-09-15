@@ -1,8 +1,17 @@
 #include <iostream>
 #include <vector>
+#include <cstdlib>
 
 #include "../include/world.h"
+#include "../include/globals.h"
 
+void clearScreen() {
+#if defined(_WIN32) || defined(_WIN64)
+    std::system("cls");
+#else
+    std::system("clear");
+#endif
+}
 /*
 Definitions of worlds' methods
 All prototypes are in include/world.h
@@ -79,6 +88,7 @@ std::vector<std::vector<char>> basicRender(position camera, World *world) {
 
 // Print out a world within a render distance
 void display(std::vector<std::vector<char>> world) {
+    clearScreen();
     std::vector<char> line;
     char currentSymbol;
     for (size_t i = 0; i < world.size(); ++i) {
