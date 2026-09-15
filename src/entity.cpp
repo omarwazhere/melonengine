@@ -1,23 +1,27 @@
 #include <cmath>
-#include "..\include\entity.h"
+
+#include "../include/entity.h"
+
 #include <SFML/Graphics.hpp>
+#include <SFML/Window/Keyboard.hpp>
 
-Entity::Entity(std::string n, int startx, int starty, bool is_solid,
-char Symbol) 
-: name(n), is_solid(is_solid), symbol(Symbol) {
-    pos.x = startx;
-    pos.y = starty;
-}
+/*
+Definitions of entities' methods
+All prototypes are in include/entity.h
+*/
 
+// Get the position of an entity
 void Entity::getPosition(int &outX, int &outY) const {
-    outX = round(pos.x);
-    outY = round(pos.y);
+    outX = std::round(pos.x);
+    outY = std::round(pos.y);
 }
 
+// Get the symbol of an entity
 char Entity::getSymbol() const {
     return symbol;
 }
 
+// Move a moving entity
 void MovingEntity::move() {
     pos.x += velocity.velx;
     pos.y += velocity.vely;
@@ -27,17 +31,7 @@ void MovingEntity::move() {
     velocity.vely *= velocity.resistance;
 }
 
-MovingEntity::MovingEntity(std::string n, int startx, int starty, float resistance, bool is_solid,
-char Symbol)
-: Entity(n, startx, starty, is_solid, Symbol) {
-    velocity.resistance = resistance;
-    velocity.velx = 0.0; velocity.vely = 0.0;
-}
-
-Player::Player(std::string n, int startx, int starty, float resistance, bool is_solid,
-char Symbol)
-: MovingEntity(n, startx, starty, resistance, is_solid, Symbol) {}
-
+// Update the player's velocity
 void Player::update() {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
         velocity.vely += 1.0;
@@ -55,6 +49,5 @@ void Player::update() {
         velocity.velx -= 1.0;
     }
 
-    
     move();
 }

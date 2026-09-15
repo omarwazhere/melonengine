@@ -1,4 +1,4 @@
 .vscode/
 build/
 src/test.cpp
-compile.ps1
+build.ps1

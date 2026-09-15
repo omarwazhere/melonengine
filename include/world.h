@@ -4,9 +4,18 @@
 #define WORLD_H
 
 #include <vector>
+
 #include "data.h"
 #include "entity.h"
 
+/*
+This is the worlds' header file
+
+All constructor definitons are in src/constructors.cpp
+All other methods of any type of world is in src/world.cpp
+*/
+
+// An abstract base world class
 class World {
     protected:
         unsigned int size;
@@ -26,6 +35,7 @@ class World {
         virtual void render(position camera) = 0;
 };
 
+// A concrete child singleplayer world
 class SinglePlayer : public World {
     private:
         Player *player;
@@ -36,12 +46,18 @@ class SinglePlayer : public World {
         void render(position camera) override;
 };
 
+// An abstract (supposed to be concrete but is unfinished) child multiplayer world
 class MultiPlayer : public World {
+    /*
+    TODO: Override and implement render() virtual method to make the
+    multiplayer world class concrete and ready
+    */
     private:
         std::vector<Player> players;
     public:
         MultiPlayer(unsigned int Size, const unsigned int Render_dist, std::vector<Player> &Players,
         char Air, std::vector<Entity> entities);
+
 };
 
 #endif

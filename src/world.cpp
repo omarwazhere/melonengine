@@ -3,33 +3,35 @@
 
 #include "../include/world.h"
 
+/*
+Definitions of worlds' methods
+All prototypes are in include/world.h
+*/
+
 std::vector<std::vector<char>> basicRender(position camera, World *world);
 void display(std::vector<std::vector<char> > world);
 
-World::World(unsigned int Size, const unsigned int Render_dist, char Air,
-std::vector<Entity> entities)
-: size(Size), render_dist(Render_dist), air(Air), entities(entities) {}
-
+// Get the size of a world
 unsigned int World::getSize() {
     return size;
 }
 
+// Get the entities in a world
 std::vector<Entity> World::getEntities() {
     return entities;
 }
 
+// Get the render distance of a world
 unsigned int World::getRenderDist() {
     return render_dist;
 }
 
+// Get the air symbol of a world
 char World::getAir() {
     return air;
 }
 
-SinglePlayer::SinglePlayer(unsigned int Size, const unsigned int Render_dist, Player &playerRef,
-char Air, std::vector<Entity> entities)
-: World(Size, Render_dist, Air, entities), player(&playerRef) {}
-
+// Render a single player world
 void SinglePlayer::render(position camera) {
     std::vector<std::vector<char>> buffer = basicRender(camera, this);
     int playerx, playery;
@@ -45,10 +47,7 @@ void SinglePlayer::render(position camera) {
     display(buffer);
 }
 
-MultiPlayer::MultiPlayer(unsigned int Size, const unsigned int Render_dist, 
-    std::vector<Player> &Players, char Air, std::vector<Entity> entities)
-: World(Size, Render_dist, Air, entities), players(Players) {}
-
+// Render all normal entities in a world template
 std::vector<std::vector<char>> basicRender(position camera, World *world) {
     if (!world) return {};
 
@@ -78,6 +77,7 @@ std::vector<std::vector<char>> basicRender(position camera, World *world) {
     return buffer;
 }
 
+// Print out a world within a render distance
 void display(std::vector<std::vector<char>> world) {
     std::vector<char> line;
     char currentSymbol;
