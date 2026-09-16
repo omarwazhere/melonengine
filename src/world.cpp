@@ -1,17 +1,12 @@
 #include <iostream>
 #include <vector>
-#include <cstdlib>
+#include <string>
 
 #include "../include/world.h"
 #include "../include/globals.h"
 
-void clearScreen() {
-#if defined(_WIN32) || defined(_WIN64)
-    std::system("cls");
-#else
-    std::system("clear");
-#endif
-}
+std::string getWorld(std::vector<std::vector<char>> map);
+
 /*
 Definitions of worlds' methods
 All prototypes are in include/world.h
@@ -88,16 +83,18 @@ std::vector<std::vector<char>> basicRender(position camera, World *world) {
 
 // Print out a world within a render distance
 void display(std::vector<std::vector<char>> world) {
-    clearScreen();
-    std::vector<char> line;
-    char currentSymbol;
-    for (size_t i = 0; i < world.size(); ++i) {
-        line = world[i];
-        for (size_t j = 0; j < line.size(); ++j) {
-            currentSymbol = line[j];
-            std::cout << currentSymbol;
+    std::string str = getWorld(world);
+    std::cout << str << "\x1b[H" << std::flush;
+}
+
+// Covert world map to one string
+std::string getWorld(std::vector<std::vector<char>> map) {
+    std::string str;
+    for (size_t i = 0; i < map.size(); ++i) {
+        for (size_t j = 0; j < map[i].size(); ++j) {
+            str += map[i][j];
         }
-        line.clear();
-        std::cout << '\n';
+        str += '\n';
     }
+    return str;
 }
