@@ -1,15 +1,11 @@
 #pragma once
 
-#ifndef DATA_H
-#define DATA_H
-
-/*
-This is the header file for data structures,
-some global variables,
-and helper functions
-*/
+#ifndef TYPES_H
+#define TYPES_H
 
 #include <string>
+
+// This is the header file for data structures
 
 // Entity's position structure 
 struct position {
@@ -33,8 +29,11 @@ struct entityInfo {
     char symbol;
 };
 
-// Helper functions
+// World info structure
+struct worldInfo {
+    unsigned int size;
+    unsigned int render_dist;
+    char air;
+};
 
-void setup();
-
-#endif // DATA_H
+#endif

@@ -5,7 +5,7 @@
 
 #include <vector>
 
-#include "data.h"
+#include "types.h"
 #include "entity.h"
 
 /*
@@ -15,7 +15,7 @@ All constructor definitons are in src/constructors.cpp
 All other methods of any type of world is in src/world.cpp
 */
 
-// An abstract base world class
+// Base world class
 class World {
     protected:
         unsigned int size;
@@ -23,7 +23,7 @@ class World {
         char air;
         std::vector<Entity> entities;
     public:
-        World(unsigned int Size, unsigned int Render_dist, char Air);
+        World(worldInfo info);
 
         virtual ~World() = default;
         unsigned int getRenderDist();
@@ -31,7 +31,7 @@ class World {
         char getAir();
         std::vector<Entity> getEntities();
 
-        virtual void render(position camera) = 0;
+        virtual void render(position camera) {};
 };
 
 // A concrete child singleplayer world
@@ -39,10 +39,10 @@ class SinglePlayer : public World {
     private:
         Player *player;
     public:
-        SinglePlayer(unsigned int Size, const unsigned int Render_dist, Player &Player,
-        char Air);
+        SinglePlayer(worldInfo info, Player &Player);
 
-        void render(position camera) override;
+        void render(position camera);
 };
+extern SinglePlayer *world;
 
 #endif

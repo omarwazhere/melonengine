@@ -4,6 +4,9 @@
 
 #include "../include/world.h"
 
+extern SinglePlayer* world;
+SinglePlayer* world = nullptr;
+
 std::string getWorld(std::vector<std::vector<char>> map);
 
 /*

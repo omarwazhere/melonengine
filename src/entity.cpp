@@ -1,7 +1,9 @@
 #include <cmath>
+#include <vector>
 
 #include "../include/entity.h"
-#include "../include/data.h"
+#include "../include/types.h"
+#include "../include/helpers.h"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Keyboard.hpp>
@@ -31,14 +33,15 @@ bool Entity::check_solid() {
 
 // Move a moving entity
 void MovingEntity::move() {
-    pos.x += velocity.velx;
-    pos.y += velocity.vely;
-    if (checkSolidEntity(pos)) {
-        // Return to older position
-        pos.x -= velocity.velx;
-        pos.y -= velocity.vely;
+    position nextPosition{
+        static_cast<int>(std::round(pos.x + velocity.velx)),
+        static_cast<int>(std::round(pos.y + velocity.vely))
+    };
 
-        // Stop when collided
+    if (isPositionInWorld(nextPosition) && !checkSolidEntity(nextPosition)) {
+        pos.x += velocity.velx;
+        pos.y += velocity.vely;
+    } else {
         velocity.velx = 0;
         velocity.vely = 0;
     }
@@ -73,14 +76,13 @@ void Player::update() {
 
 // Check the existance of a solid entity in a position
 bool checkSolidEntity(position pos) {
-    /*
+    std::vector<Entity> entities;
     int x, y;
-    for (auto &entity : g_entities) {
+    for (Entity &entity : entities) {
         entity.getPosition(x, y);
-        if (x == pos.x && y == pos.y && entity.check_solid()) {
+        if (x == pos.x && y == pos.y) {
             return true;
         }
     }
-    */
     return false;
 }

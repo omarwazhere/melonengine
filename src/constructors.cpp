@@ -1,7 +1,7 @@
 #include <string>
 #include <vector>
 
-#include "../include/data.h"
+#include "../include/types.h"
 #include "../include/entity.h"
 #include "../include/world.h"
 
@@ -28,10 +28,7 @@ Player::Player(entityInfo info, float resistance) : MovingEntity(info, resistanc
 // World constructors
 
 // Base world constructor
-World::World(unsigned int Size, const unsigned int Render_dist, char Air)
-: size(Size), render_dist(Render_dist), air(Air) {}
+World::World(worldInfo info) : size(info.size), render_dist(info.render_dist), air(info.air) {}
 
 // Singleplayer world constructor
-SinglePlayer::SinglePlayer(unsigned int Size, const unsigned int Render_dist, Player &Player,
-char Air)
-: World(Size, Render_dist, Air), player(&Player) {}
+SinglePlayer::SinglePlayer(worldInfo info, Player &Player) : World(info), player(&Player) {}
