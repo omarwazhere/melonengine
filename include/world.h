@@ -26,10 +26,13 @@ class World {
         World(worldInfo info);
 
         virtual ~World() = default;
+
         unsigned int getRenderDist();
         unsigned int getSize();
         char getAir();
         std::vector<Entity> getEntities();
+
+        void newEntity(Entity &entity);
 
         virtual void render(position camera) {};
 };

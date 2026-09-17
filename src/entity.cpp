@@ -2,6 +2,7 @@
 #include <vector>
 
 #include "../include/entity.h"
+#include "../include/world.h"
 #include "../include/types.h"
 #include "../include/helpers.h"
 
@@ -33,15 +34,12 @@ bool Entity::check_solid() {
 
 // Move a moving entity
 void MovingEntity::move() {
-    position nextPosition{
-        static_cast<int>(std::round(pos.x + velocity.velx)),
-        static_cast<int>(std::round(pos.y + velocity.vely))
-    };
+    pos.x += static_cast<int>(round(velocity.velx));
+    pos.y += static_cast<int>(round(velocity.vely));
 
-    if (isPositionInWorld(nextPosition) && !checkSolidEntity(nextPosition)) {
-        pos.x += velocity.velx;
-        pos.y += velocity.vely;
-    } else {
+    if (checkSolidEntity(pos)) {
+        pos.x -= velocity.velx;
+        pos.y -= velocity.vely;
         velocity.velx = 0;
         velocity.vely = 0;
     }
@@ -76,11 +74,11 @@ void Player::update() {
 
 // Check the existance of a solid entity in a position
 bool checkSolidEntity(position pos) {
-    std::vector<Entity> entities;
+    std::vector<Entity> entities = world->getEntities();
     int x, y;
     for (Entity &entity : entities) {
         entity.getPosition(x, y);
-        if (x == pos.x && y == pos.y) {
+        if (x == pos.x && y == pos.y && entity.check_solid()) {
             return true;
         }
     }

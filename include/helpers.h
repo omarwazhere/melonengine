@@ -12,5 +12,6 @@ void setup();
 void setWorld(int size, Player &player);
 void tick(int millisecs, Player &player);
 bool isPositionInWorld(position pos);
+void summonMovingEntity(entityInfo info, float resistance);
 
 #endif // DATA_H

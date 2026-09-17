@@ -45,3 +45,8 @@ void tick(int millisecs, Player &player) {
     std::this_thread::sleep_for(std::chrono::milliseconds(millisecs));
 }
 
+// Summon a moving entity
+void summonMovingEntity(entityInfo info, float resistance) {
+    MovingEntity newEntity(info, resistance);
+    world->newEntity(newEntity);
+}

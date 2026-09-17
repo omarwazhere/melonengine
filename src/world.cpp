@@ -37,6 +37,11 @@ char World::getAir() {
     return air;
 }
 
+// Add a new entity
+void World::newEntity(Entity &entity) {
+    entities.push_back(entity);
+}
+
 // Render a single player world
 void SinglePlayer::render(position camera) {
     std::vector<std::vector<char>> buffer = basicRender(camera, this);
