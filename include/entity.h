@@ -22,7 +22,7 @@ class Entity {
         position pos;
         bool is_solid; 
     public:
-        Entity(std::string n, int startx, int starty, bool is_solid, char Symbol);
+        Entity(entityInfo info);
 
         void getPosition(int &outX, int &outY) const;
         char getSymbol() const;
@@ -38,8 +38,7 @@ class MovingEntity : public Entity {
     protected:
         velocity velocity;
     public:
-        MovingEntity(std::string n, int startx, int starty, float resistance, bool is_solid,
-        char Symbol);
+        MovingEntity(entityInfo info, float resistance);
 
         void update() {};
 
@@ -49,7 +48,7 @@ class MovingEntity : public Entity {
 // Player grandchild class
 class Player : public MovingEntity {
     public:
-        Player(std::string n, int startx, int starty, float resistance, bool is_solid, char Symbol);
+        Player(entityInfo info, float resistance);
 
         // Update is overriden for key controls
         void update() override;

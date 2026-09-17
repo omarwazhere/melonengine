@@ -23,8 +23,7 @@ class World {
         char air;
         std::vector<Entity> entities;
     public:
-        World(unsigned int Size, unsigned int Render_dist, char Air, 
-        std::vector<Entity> entites);
+        World(unsigned int Size, unsigned int Render_dist, char Air);
 
         virtual ~World() = default;
         unsigned int getRenderDist();
@@ -41,23 +40,9 @@ class SinglePlayer : public World {
         Player *player;
     public:
         SinglePlayer(unsigned int Size, const unsigned int Render_dist, Player &Player,
-        char Air, std::vector<Entity> entities);
+        char Air);
 
         void render(position camera) override;
-};
-
-// An abstract (supposed to be concrete but is unfinished) child multiplayer world
-class MultiPlayer : public World {
-    /*
-    TODO: Override and implement render() virtual method to make the
-    multiplayer world class concrete and ready
-    */
-    private:
-        std::vector<Player> players;
-    public:
-        MultiPlayer(unsigned int Size, const unsigned int Render_dist, std::vector<Player> &Players,
-        char Air, std::vector<Entity> entities);
-
 };
 
 #endif

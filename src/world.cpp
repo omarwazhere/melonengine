@@ -3,7 +3,6 @@
 #include <string>
 
 #include "../include/world.h"
-#include "../include/globals.h"
 
 std::string getWorld(std::vector<std::vector<char>> map);
 
@@ -46,7 +45,7 @@ void SinglePlayer::render(position camera) {
     int screenY = playery - (camera.y - static_cast<int>(getRenderDist()));
     if (screenY >= 0 && static_cast<size_t>(screenY) < buffer.size()
         && screenX >= 0 && static_cast<size_t>(screenX) < buffer[screenY].size()) {
-        buffer[buffer.size() - screenY][screenX] = symbol;
+        buffer[screenY][screenX] = symbol;
     }
     display(buffer);
 }
@@ -73,7 +72,7 @@ std::vector<std::vector<char>> basicRender(position camera, World *world) {
         // Strict boundary check before indexing outer vector (row) and inner vector (col)
         if (screenY >= 0 && static_cast<size_t>(screenY) < buffer.size()) {
             if (screenX >= 0 && static_cast<size_t>(screenX) < buffer[screenY].size()) {
-                buffer[buffer.size() - screenY][screenX] = current.getSymbol();
+                buffer[screenY][screenX] = current.getSymbol();
             }
         }
     }

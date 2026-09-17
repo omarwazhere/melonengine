@@ -1,7 +1,6 @@
 #include <cmath>
 
 #include "../include/entity.h"
-#include "../include/globals.h"
 #include "../include/data.h"
 
 #include <SFML/Graphics.hpp>
@@ -52,11 +51,11 @@ void MovingEntity::move() {
 // Update the player's velocity
 void Player::update() {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
-        velocity.vely += 1.0;
+        velocity.vely -= 1.0;
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
-        velocity.vely -= 1.0;
+        velocity.vely += 1.0;
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
@@ -74,6 +73,7 @@ void Player::update() {
 
 // Check the existance of a solid entity in a position
 bool checkSolidEntity(position pos) {
+    /*
     int x, y;
     for (auto &entity : g_entities) {
         entity.getPosition(x, y);
@@ -81,5 +81,6 @@ bool checkSolidEntity(position pos) {
             return true;
         }
     }
+    */
     return false;
 }
