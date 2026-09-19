@@ -1,10 +1,7 @@
 #include <cmath>
 #include <vector>
 
-#include "../include/entity.h"
-#include "../include/world.h"
-#include "../include/types.h"
-#include "../include/helpers.h"
+#include "melon/melonlib.h"
 
 /*
 Definitions of entities' methods
@@ -29,8 +26,8 @@ bool Entity::check_solid() const {
 
 // Move a moving entity
 void MovingEntity::move() {
-    pos.x += static_cast<int>(round(velocity.velx));
-    pos.y += static_cast<int>(round(velocity.vely));
+    pos.x += static_cast<int>(std::round(velocity.velx));
+    pos.y += static_cast<int>(std::round(velocity.vely));
 
     if (checkSolidEntity(pos, this->id)) {
         pos.x -= velocity.velx;

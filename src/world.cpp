@@ -2,10 +2,7 @@
 #include <vector>
 #include <string>
 
-#include "../include/world.h"
-
-extern World* world;
-World* world = nullptr;
+#include "melon/melonlib.h"
 
 std::string getWorld(std::vector<std::vector<char>> map);
 
@@ -14,9 +11,7 @@ Definitions of worlds' methods
 All prototypes are in include/world.h
 */
 
-unsigned int current_id = 0;
-
-void display(std::vector<std::vector<char> > world);
+void display(std::vector<std::vector<char>> world);
 
 World::~World() {
     for (Entity* entity : entities) {

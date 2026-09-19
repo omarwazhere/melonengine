@@ -1,11 +1,9 @@
-#include <windows.h>
 #include <chrono>
-#include <thread>
 #include <iostream>
+#include <thread>
+#include <windows.h>
 
-#include "../include/types.h"
-#include "../include/world.h"
-#include "../include/entity.h"
+#include "melon/melonlib.h"
 
 // Turn ANSI escape codes on
 void setup() {

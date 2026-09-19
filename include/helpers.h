@@ -3,10 +3,10 @@
 #ifndef HELPERS_H
 #define HELPERS_H
 
-// This is the header file for helper functions
-
 #include "types.h"
 #include "entity.h"
+
+// This is the header file for helper functions
 
 void setup();
 void setWorld(int size);

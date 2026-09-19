@@ -3,9 +3,9 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#include "types.h"
-
 #include <string>
+
+#include "types.h"
 
 /*
 This is the entities' header file

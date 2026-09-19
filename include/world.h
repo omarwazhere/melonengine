@@ -36,7 +36,4 @@ class World {
         void render(position camera);
 };
 
-extern World *world;
-extern unsigned int current_id;
-
 #endif

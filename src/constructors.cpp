@@ -1,9 +1,7 @@
 #include <string>
 #include <vector>
 
-#include "../include/types.h"
-#include "../include/entity.h"
-#include "../include/world.h"
+#include "melon/melonlib.h"
 
 // Constructor methods for worlds and entities
 
