@@ -6,9 +6,6 @@
 #include "../include/types.h"
 #include "../include/helpers.h"
 
-#include <SFML/Graphics.hpp>
-#include <SFML/Window/Keyboard.hpp>
-
 /*
 Definitions of entities' methods
 All prototypes are in include/entity.h

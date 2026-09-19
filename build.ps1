@@ -1,0 +1,1 @@
+g++ -std=c++23 src/*.cpp -o build/test.exe
