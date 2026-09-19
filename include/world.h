@@ -15,37 +15,28 @@ All constructor definitons are in src/constructors.cpp
 All other methods of any type of world is in src/world.cpp
 */
 
-// Base world class
+// World class
 class World {
     protected:
         unsigned int size;
         unsigned int render_dist;
         char air;
-        std::vector<Entity> entities;
     public:
+        std::vector<Entity*> entities;
         World(worldInfo info);
 
-        virtual ~World() = default;
+        virtual ~World();
 
         unsigned int getRenderDist();
         unsigned int getSize();
         char getAir();
-        std::vector<Entity> getEntities();
+        std::vector<Entity*> getEntities();
 
-        void newEntity(Entity &entity);
-
-        virtual void render(position camera) {};
-};
-
-// A concrete child singleplayer world
-class SinglePlayer : public World {
-    private:
-        Player *player;
-    public:
-        SinglePlayer(worldInfo info, Player &Player);
-
+        void newMovingEntity(MovingEntity &entity);
         void render(position camera);
 };
-extern SinglePlayer *world;
+
+extern World *world;
+extern unsigned int current_id;
 
 #endif

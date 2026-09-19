@@ -17,11 +17,11 @@ void setup() {
 }
 
 // Set the world
-void setWorld(int size, Player &player) {
+void setWorld(int size) {
     const unsigned int worldSize = size > 0 ? static_cast<unsigned int>(size) : 0;
 
     delete world;
-    world = new SinglePlayer(worldInfo{worldSize, 10, ' '}, player);
+    world = new World(worldInfo{worldSize, 10, ' '});
 }
 
 // Check if a position is in the world
@@ -33,20 +33,27 @@ bool isPositionInWorld(position pos) {
 }
 
 // Tick the game
-void tick(int millisecs, Player &player) {
-    position playerpos{};
-    player.update();
-    player.getPosition(playerpos.x, playerpos.y);
-
-    std::cout << "X: " << playerpos.x << '\n'; // TEST
-    std::cout << "Y: " << playerpos.y << "\n\n"; // TEST
-
-    world->render(playerpos);
+void tick(int millisecs, int renderx, int rendery) {
+    world->render(position{renderx, rendery});
     std::this_thread::sleep_for(std::chrono::milliseconds(millisecs));
 }
 
 // Summon a moving entity
-void summonMovingEntity(entityInfo info, float resistance) {
-    MovingEntity newEntity(info, resistance);
-    world->newEntity(newEntity);
+void summonMovingEntity(entityInfo &info) {
+    current_id++;
+    info.id = current_id;
+    MovingEntity *newEntity = new MovingEntity(info);
+    world->newMovingEntity(*newEntity);
+}
+
+// Check the existance of a solid entity in a position
+bool checkSolidEntity(position pos, unsigned int id) {
+    int x, y;
+    for (auto &entity : world->entities) {
+        entity->getPosition(x, y);
+        if (x == pos.x && y == pos.y && entity->check_solid() && entity->id != id) {
+            return true;
+        }
+    }
+    return false;
 }

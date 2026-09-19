@@ -22,11 +22,12 @@ class Entity {
         position pos;
         bool is_solid; 
     public:
+        const unsigned int id;
         Entity(entityInfo info);
 
         void getPosition(int &outX, int &outY) const;
         char getSymbol() const;
-        bool check_solid();
+        bool check_solid() const;
 
         virtual void update() {};
 
@@ -35,23 +36,11 @@ class Entity {
 
 // Moving entity child class
 class MovingEntity : public Entity {
-    protected:
-        velocity velocity;
     public:
-        MovingEntity(entityInfo info, float resistance);
-
-        void update() {};
+        velocity velocity;
+        MovingEntity(entityInfo info);
 
         void move();
-};
-
-// Player grandchild class
-class Player : public MovingEntity {
-    public:
-        Player(entityInfo info, float resistance);
-
-        // Update is overriden for key controls
-        void update() override;
 };
 
 #endif // ENTITY_H

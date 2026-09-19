@@ -14,12 +14,10 @@ Definitions of entities' methods
 All prototypes are in include/entity.h
 */
 
-bool checkSolidEntity(position pos);
-
 // Get the position of an entity
 void Entity::getPosition(int &outX, int &outY) const {
-    outX = std::round(pos.x);
-    outY = std::round(pos.y);
+    outX = pos.x;
+    outY = pos.y;
 }
 
 // Get the symbol of an entity
@@ -28,7 +26,7 @@ char Entity::getSymbol() const {
 }
 
 // Check if an entity is solid or not
-bool Entity::check_solid() {
+bool Entity::check_solid() const {
     return is_solid;
 }
 
@@ -37,50 +35,10 @@ void MovingEntity::move() {
     pos.x += static_cast<int>(round(velocity.velx));
     pos.y += static_cast<int>(round(velocity.vely));
 
-    if (checkSolidEntity(pos)) {
+    if (checkSolidEntity(pos, this->id)) {
         pos.x -= velocity.velx;
         pos.y -= velocity.vely;
         velocity.velx = 0;
         velocity.vely = 0;
     }
-
-    // Apply resistance after movement so velocity gradually decays.
-    velocity.velx *= velocity.resistance;
-    velocity.vely *= velocity.resistance;
-}
-
-// Update the player's velocity
-void Player::update() {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
-        velocity.vely -= 1.0;
-    }
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
-        velocity.vely += 1.0;
-    }
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
-        velocity.velx += 1.0;
-    }
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
-        velocity.velx -= 1.0;
-    }
-
-    if (std::abs(velocity.velx) >= 1.0 || std::abs(velocity.vely) >= 1.0) {
-        move();
-    }
-}
-
-// Check the existance of a solid entity in a position
-bool checkSolidEntity(position pos) {
-    std::vector<Entity> entities = world->getEntities();
-    int x, y;
-    for (Entity &entity : entities) {
-        entity.getPosition(x, y);
-        if (x == pos.x && y == pos.y && entity.check_solid()) {
-            return true;
-        }
-    }
-    return false;
 }

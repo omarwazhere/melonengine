@@ -4,8 +4,8 @@
 
 #include "../include/world.h"
 
-extern SinglePlayer* world;
-SinglePlayer* world = nullptr;
+extern World* world;
+World* world = nullptr;
 
 std::string getWorld(std::vector<std::vector<char>> map);
 
@@ -14,8 +14,15 @@ Definitions of worlds' methods
 All prototypes are in include/world.h
 */
 
-std::vector<std::vector<char>> basicRender(position camera, World *world);
+unsigned int current_id = 0;
+
 void display(std::vector<std::vector<char> > world);
+
+World::~World() {
+    for (Entity* entity : entities) {
+        delete entity;
+    }
+}
 
 // Get the size of a world
 unsigned int World::getSize() {
@@ -23,7 +30,7 @@ unsigned int World::getSize() {
 }
 
 // Get the entities in a world
-std::vector<Entity> World::getEntities() {
+std::vector<Entity*> World::getEntities() {
     return entities;
 }
 
@@ -38,41 +45,21 @@ char World::getAir() {
 }
 
 // Add a new entity
-void World::newEntity(Entity &entity) {
-    entities.push_back(entity);
-}
-
-// Render a single player world
-void SinglePlayer::render(position camera) {
-    std::vector<std::vector<char>> buffer = basicRender(camera, this);
-    int playerx, playery;
-    char symbol = player->getSymbol();
-    player->getPosition(playerx, playery);
-
-    int screenX = playerx - (camera.x - static_cast<int>(getRenderDist()));
-    int screenY = playery - (camera.y - static_cast<int>(getRenderDist()));
-    if (screenY >= 0 && static_cast<size_t>(screenY) < buffer.size()
-        && screenX >= 0 && static_cast<size_t>(screenX) < buffer[screenY].size()) {
-        buffer[screenY][screenX] = symbol;
-    }
-    display(buffer);
+void World::newMovingEntity(MovingEntity &entity) {
+    entities.push_back(&entity);
 }
 
 // Render all normal entities in a world template
-std::vector<std::vector<char>> basicRender(position camera, World *world) {
-    if (!world) return {};
-
-    unsigned int render_dist = world->getRenderDist();
-    char air = world->getAir();
+void World::render(position camera) {
+    if (!this) return;
     
     const size_t tiles = static_cast<size_t>(render_dist) * 2 + 1;
     std::vector<std::vector<char>> buffer(tiles, std::vector<char>(tiles, air));
 
     int posX{}, posY{};
-    std::vector<Entity> entities = world->getEntities();
 
     for (auto& current : entities) {
-        current.getPosition(posX, posY);
+        current->getPosition(posX, posY);
 
         int screenX = posX - (camera.x - static_cast<int>(render_dist));
         int screenY = posY - (camera.y - static_cast<int>(render_dist));
@@ -80,12 +67,11 @@ std::vector<std::vector<char>> basicRender(position camera, World *world) {
         // Strict boundary check before indexing outer vector (row) and inner vector (col)
         if (screenY >= 0 && static_cast<size_t>(screenY) < buffer.size()) {
             if (screenX >= 0 && static_cast<size_t>(screenX) < buffer[screenY].size()) {
-                buffer[screenY][screenX] = current.getSymbol();
+                buffer[screenY][screenX] = current->getSymbol();
             }
         }
     }
-
-    return buffer;
+    display(buffer);
 }
 
 // Print out a world within a render distance

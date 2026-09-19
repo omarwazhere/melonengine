@@ -15,7 +15,6 @@ struct position {
 
 // Entity's velocity structure
 struct velocity {
-    float resistance;
     float velx;
     float vely;
 };
@@ -27,6 +26,7 @@ struct entityInfo {
     int starty;
     bool is_solid;
     char symbol;
+    unsigned int id;
 };
 
 // World info structure
