@@ -11,7 +11,7 @@
 /*
 This is the worlds' header file
 
-All constructor definitons are in src/constructors.cpp
+All constructors are in src/constructors.cpp
 All other methods of any type of world is in src/world.cpp
 */
 
@@ -33,6 +33,8 @@ class World {
         std::vector<Entity*> getEntities();
 
         void newMovingEntity(MovingEntity &entity);
+        void newObject(Object &entity);
+
         void render(position camera);
 };
 

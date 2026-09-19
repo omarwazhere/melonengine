@@ -10,7 +10,7 @@
 /*
 This is the entities' header file
 
-All constructor definitons are in src/constructors.cpp
+All constructors are in src/constructors.cpp
 All other methods of any entity is in src/entity.cpp
 */
 
@@ -34,13 +34,19 @@ class Entity {
         virtual ~Entity() = default;
 };
 
-// Moving entity child class
+// Derived moving entity class
 class MovingEntity : public Entity {
     public:
         velocity velocity;
         MovingEntity(entityInfo info);
 
         void move();
+};
+
+// Derived static object class
+class Object : public Entity {
+    public:
+        Object(entityInfo info);
 };
 
 #endif // ENTITY_H

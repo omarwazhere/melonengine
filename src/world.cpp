@@ -39,8 +39,13 @@ char World::getAir() {
     return air;
 }
 
-// Add a new entity
+// Add a new moving entity
 void World::newMovingEntity(MovingEntity &entity) {
+    entities.push_back(&entity);
+}
+
+// Add a new object
+void World::newObject(Object &entity) {
     entities.push_back(&entity);
 }
 

@@ -15,7 +15,7 @@ int main() {
     setWorld(100);
 
     entityInfo someone = {entityInfo{"someone?", 0, 9, true, '*', 0}};
-    summonMovingEntity(someone);
+    summonObject(someone);
 
     MovingEntity *hero = new MovingEntity(entityInfo{"omarwazhere", 0, 0, true, '^', ++current_id});
     world->newMovingEntity(*hero);

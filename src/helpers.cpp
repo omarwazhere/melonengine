@@ -44,6 +44,14 @@ void summonMovingEntity(entityInfo &info) {
     world->newMovingEntity(*newEntity);
 }
 
+// Summon an object entity
+void summonObject(entityInfo &info) {
+    current_id++;
+    info.id = current_id;
+    Object *newEntity = new Object(info);
+    world->newObject(*newEntity);
+}
+
 // Check the existance of a solid entity in a position
 bool checkSolidEntity(position pos, unsigned int id) {
     int x, y;
