@@ -26,12 +26,15 @@ bool Entity::check_solid() const {
 
 // Move a moving entity
 void MovingEntity::move() {
+    int prevX = pos.x;
+    int prevY = pos.y;
+    unsigned int size = world->getSize();
     pos.x += static_cast<int>(std::round(velocity.velx));
     pos.y += static_cast<int>(std::round(velocity.vely));
 
-    if (checkSolidEntity(pos, this->id)) {
-        pos.x -= velocity.velx;
-        pos.y -= velocity.vely;
+    if (checkSolidEntity(pos, this->id) || pos.x > size || pos.y > size) {
+        pos.x = prevX;
+        pos.y = prevY;
         velocity.velx = 0;
         velocity.vely = 0;
     }

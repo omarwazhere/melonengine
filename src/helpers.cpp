@@ -1,17 +1,26 @@
 #include <chrono>
 #include <iostream>
 #include <thread>
+#ifdef _WIN32
 #include <windows.h>
+#endif
 
 #include "melon/melonlib.h"
 
-// Turn ANSI escape codes on
+// Set up the console
 void setup() {
+    #ifdef _WIN32
     HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-    DWORD dwMode = 0;
-    GetConsoleMode(hOut, &dwMode);
-    dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
-    SetConsoleMode(hOut, dwMode);
+    if (hOut != INVALID_HANDLE_VALUE) {
+        DWORD dwMode = 0;
+        if (GetConsoleMode(hOut, &dwMode)) {
+            dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+            SetConsoleMode(hOut, dwMode);
+        }
+    }
+    #endif
+
+    std::cout << "\e[?25l" << std::flush;
 }
 
 // Set the world
