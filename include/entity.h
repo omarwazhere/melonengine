@@ -28,8 +28,9 @@ class Entity {
         void getPosition(int &outX, int &outY) const;
         char getSymbol() const;
         bool check_solid() const;
+        bool collided();
 
-        virtual void update() {};
+        virtual void update() {}
 
         virtual ~Entity() = default;
 };
@@ -41,6 +42,17 @@ class MovingEntity : public Entity {
         MovingEntity(entityInfo info);
 
         void move();
+};
+
+// Derived (from MovingEntity) mob class
+class Mob : public MovingEntity {
+    public:
+        short int xdir = 0; // TEST
+        short int ydir = 1; // TEST
+        
+        Mob(entityInfo info);
+
+        void update() override;
 };
 
 // Derived static object class

@@ -16,6 +16,9 @@ MovingEntity::MovingEntity(entityInfo info) : Entity(info) {
     velocity.velx = 0.0; velocity.vely = 0.0;
 }
 
+// Mob constructor
+Mob::Mob(entityInfo info) : MovingEntity(info) {}
+
 // Object constructor
 Object::Object(entityInfo info) : Entity(info) {}
 

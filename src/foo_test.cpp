@@ -14,14 +14,16 @@ int main() {
     setup();
     setWorld(100);
 
-    entityInfo someone = {entityInfo{"someone?", 0, 9, true, '*', 0}};
-    summonObject(someone);
+    entityInfo object = {entityInfo{"mr. object", 1, 9, true, '*', 0}};
+    summonObject(object);
+
+    Mob *silly = new Mob(entityInfo{"silly NPC hitting a wall", 1, 0, true, '&', ++current_id});
+    world->newMovingEntity(*silly);
 
     MovingEntity *hero = new MovingEntity(entityInfo{"omarwazhere", 0, 0, true, '^', ++current_id});
     world->newMovingEntity(*hero);
 
     int x, y;
-    hero->getPosition(x, y);
     while (true) {
         
         if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) {
@@ -44,6 +46,7 @@ int main() {
 
         hero->move();
         hero->getPosition(x, y);
+        silly->update();
 
         hero->velocity.velx = 0;
         hero->velocity.vely = 0;
