@@ -1,0 +1,3 @@
+MELONENGINE'S COMMANDS:
+HELP - get help about commands
+INFO - about the engine

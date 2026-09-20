@@ -1,1 +1,1 @@
-g++ -std=c++23 src/*.cpp -o build/test.exe
+g++ -std=c++23 src/*.cpp -o build/build.exe
