@@ -26,6 +26,7 @@ bool Entity::check_solid() const {
 
 // Check if entity is collided
 bool Entity::collided() {
+    if (is_solid) return false;
     unsigned int size = world->getSize();
     return checkSolidEntity(pos, this->id) || pos.x > size || pos.y > size;
 }
