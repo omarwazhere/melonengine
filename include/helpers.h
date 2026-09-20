@@ -9,7 +9,7 @@
 // This is the header file for helper functions
 
 void setup();
-void setWorld(int size);
+void setWorld(unsigned int size, unsigned int render_dist);
 void tick(int millisecs, int renderx, int rendery);
 bool isPositionInWorld(position pos);
 void summonMovingEntity(entityInfo &info);

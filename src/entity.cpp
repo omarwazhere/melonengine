@@ -45,8 +45,8 @@ void MovingEntity::move() {
     }
 }
 
-// Update a mob
-void Mob::update() {
+// Move a mob
+void Mob::move() {
     int prevX = pos.x;
     int prevY = pos.y;
 
@@ -68,5 +68,45 @@ void Mob::update() {
             ydir *= -1;
             velocity.vely = ydir;
         }
+    }
+}
+
+// Move a mob without bouncing at collision
+void Mob::blind_move() {
+    int prevX = pos.x;
+    int prevY = pos.y;
+
+    velocity.velx = xdir;
+    velocity.vely = ydir;
+
+    pos.x += static_cast<int>(std::round(velocity.velx));
+    pos.y += static_cast<int>(std::round(velocity.vely));
+
+    if (collided()) {
+        pos.x = prevX;
+        pos.y = prevY;
+    }
+}
+
+// Make a mob follow a position
+void Mob::follow(int targetx, int targety, unsigned int dist) {
+    if (targetx + dist > pos.x) xdir = 1;
+    else if (targetx - dist < pos.x) xdir = -1;
+
+    if (targety + dist > pos.y) ydir = 1;
+    else if (targety - dist < pos.y) ydir = -1;
+
+    blind_move();
+}
+
+// Make a mob wander around
+void Mob::wander() {
+    if (wanderSteps == 0) {
+        xdir = (std::rand() % 3) - 1;
+        ydir = (std::rand() % 3) - 1;
+        wanderSteps = std::rand() % 10 + 5;
+    } else {
+        move();
+        wanderSteps--;
     }
 }

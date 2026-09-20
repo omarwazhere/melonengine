@@ -24,11 +24,9 @@ void setup() {
 }
 
 // Set the world
-void setWorld(int size) {
-    const unsigned int worldSize = size > 0 ? static_cast<unsigned int>(size) : 0;
-
+void setWorld(unsigned int size, unsigned int render_dist) {
     delete world;
-    world = new World(worldInfo{worldSize, 10, ' '});
+    world = new World(worldInfo{size, render_dist, ' '});
 }
 
 // Check if a position is in the world

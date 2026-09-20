@@ -30,8 +30,6 @@ class Entity {
         bool check_solid() const;
         bool collided();
 
-        virtual void update() {}
-
         virtual ~Entity() = default;
 };
 
@@ -41,18 +39,23 @@ class MovingEntity : public Entity {
         velocity velocity;
         MovingEntity(entityInfo info);
 
-        void move();
+        virtual void move();
 };
 
 // Derived (from MovingEntity) mob class
 class Mob : public MovingEntity {
+    private:
+        unsigned int wanderSteps = 0;
     public:
         short int xdir = 0; // TEST
         short int ydir = 1; // TEST
         
         Mob(entityInfo info);
 
-        void update() override;
+        void wander();
+        void follow(int targetx, int targety, unsigned int dist);
+        void move() override;
+        void blind_move();
 };
 
 // Derived static object class

@@ -12,41 +12,47 @@ unsigned int current_id = 0;
 
 int main() {
     setup();
-    setWorld(100);
+    setWorld(100, 20);
 
-    entityInfo object = {entityInfo{"mr. object", 1, 9, true, '*', 0}};
-    summonObject(object);
-
-    Mob *silly = new Mob(entityInfo{"silly NPC hitting a wall", 1, 0, true, '&', ++current_id});
-    world->newMovingEntity(*silly);
+    Mob *dog = new Mob(entityInfo{"dog no.432149", 5, 0, true, 'O', ++current_id});
+    world->newMovingEntity(*dog);
 
     MovingEntity *hero = new MovingEntity(entityInfo{"omarwazhere", 0, 0, true, '^', ++current_id});
     world->newMovingEntity(*hero);
 
     int x, y;
+    bool tamed = false;
     while (true) {
-        
         if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) {
             break;
         }
 
+        if (GetAsyncKeyState(' ') & 0x8000) {
+            tamed = true;
+        }
+
         if (GetAsyncKeyState('W') & 0x8000) {
-            hero->velocity.vely -= 1.0;
+            hero->velocity.vely -= 2.0;
         }
         if (GetAsyncKeyState('A') & 0x8000) {
-            hero->velocity.velx -= 1.0;
+            hero->velocity.velx -= 2.0;
         }
         if (GetAsyncKeyState('S') & 0x8000) {
-            hero->velocity.vely += 1.0;
+            hero->velocity.vely += 2.0;
         }
 
         if (GetAsyncKeyState('D') & 0x8000) {
-            hero->velocity.velx += 1.0;
+            hero->velocity.velx += 2.0;
         }
 
         hero->move();
         hero->getPosition(x, y);
-        silly->update();
+
+        if (tamed) {
+            dog->follow(x, y, 4);
+        } else {
+            dog->wander();
+        }
 
         hero->velocity.velx = 0;
         hero->velocity.vely = 0;
