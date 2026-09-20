@@ -1,10 +1,10 @@
 #pragma once
 
-#ifndef HELPERS_H
-#define HELPERS_H
+#ifndef HELPERS_HPP
+#define HELPERS_HPP
 
-#include "types.h"
-#include "entity.h"
+#include "types.hpp"
+#include "entity.hpp"
 
 // This is the header file for helper functions
 
@@ -16,4 +16,4 @@ void summonMovingEntity(entityInfo &info);
 void summonObject(entityInfo &info);
 bool checkSolidEntity(position pos, unsigned int id);
 
-#endif // DATA_H
+#endif // DATA_HPP

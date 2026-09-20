@@ -2,7 +2,7 @@
 #include <vector>
 #include <string>
 
-#include "melon/melonlib.h"
+#include "melon/melonlib.hpp"
 
 std::string getWorld(std::vector<std::vector<char>> map);
 

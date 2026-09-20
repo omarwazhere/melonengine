@@ -3,7 +3,7 @@
 #include <thread>
 #include <windows.h>
 
-#include "melon/melonlib.h"
+#include "melon/melonlib.hpp"
 
 World* world = nullptr;
 unsigned int current_id = 0;

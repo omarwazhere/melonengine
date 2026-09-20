@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef TYPES_H
-#define TYPES_H
+#ifndef TYPES_HPP
+#define TYPES_HPP
 
 #include <string>
 
@@ -36,4 +36,4 @@ struct worldInfo {
     char air;
 };
 
-#endif
+#endif // TYPES_HPP

@@ -5,7 +5,7 @@
 #include <windows.h>
 #endif
 
-#include "melon/melonlib.h"
+#include "melon/melonlib.hpp"
 
 // Set up the console
 void setup() {

@@ -1,7 +1,7 @@
 #include <cmath>
 #include <vector>
 
-#include "melon/melonlib.h"
+#include "melon/melonlib.hpp"
 
 /*
 Definitions of entities' methods

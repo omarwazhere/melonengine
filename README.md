@@ -50,11 +50,11 @@ melonEngine/
 ├── README.md
 ├── build.ps1
 ├── include/
-│   ├── entity.h
-│   ├── globals.h
-│   ├── helpers.h
-│   ├── types.h
-│   └── world.h
+│   ├── entity.hpp
+│   ├── globals.hpp
+│   ├── helpers.hpp
+│   ├── types.hpp
+│   └── world.hpp
 ├── src/
 │   ├── constructors.cpp
 │   ├── entity.cpp

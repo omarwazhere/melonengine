@@ -1,12 +1,12 @@
 #pragma once
 
-#ifndef WORLD_H
-#define WORLD_H
+#ifndef WORLD_HPP
+#define WORLD_HPP
 
 #include <vector>
 
-#include "types.h"
-#include "entity.h"
+#include "types.hpp"
+#include "entity.hpp"
 
 /*
 This is the worlds' header file
@@ -38,4 +38,4 @@ class World {
         void render(position camera);
 };
 
-#endif
+#endif // WORLD_HPP

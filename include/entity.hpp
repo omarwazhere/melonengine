@@ -1,11 +1,11 @@
 #pragma once
 
-#ifndef ENTITY_H
-#define ENTITY_H
+#ifndef ENTITY_HPP
+#define ENTITY_HPP
 
 #include <string>
 
-#include "types.h"
+#include "types.hpp"
 
 /*
 This is the entities' header file
@@ -64,4 +64,4 @@ class Object : public Entity {
         Object(entityInfo info);
 };
 
-#endif // ENTITY_H
+#endif // ENTITY_HPP

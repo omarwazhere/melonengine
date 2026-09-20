@@ -1,7 +1,7 @@
 #include <string>
 #include <vector>
 
-#include "melon/melonlib.h"
+#include "melon/melonlib.hpp"
 
 // Constructor methods for worlds and entities
 
