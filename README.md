@@ -46,25 +46,35 @@ This project is best treated as a prototype and a learning sandbox rather than a
 
 ```text
 melonEngine/
+├── .gitignore
+├── .vscode/
 ├── LICENSE
 ├── README.md
+├── build/
 ├── build.ps1
+├── buildtest.ps1
+├── docs/
+│   ├── help.txt
+│   └── info.txt
 ├── include/
 │   ├── entity.hpp
 │   ├── globals.hpp
 │   ├── helpers.hpp
+│   ├── melonscript.hpp
 │   ├── types.hpp
 │   └── world.hpp
 ├── src/
 │   ├── constructors.cpp
 │   ├── entity.cpp
-│   ├── foo_test.cpp
 │   ├── helpers.cpp
-│   ├── world.cpp
-│   └── melon/
-│       └── melonlib.h
-└── build/
-    └── generated binaries and test outputs
+│   ├── main.cpp
+│   ├── melon/
+│   │   └── melonlib.hpp
+│   ├── melonscript/
+│   └── world.cpp
+├── test/
+│   └── foo_test.cpp
+└── ...
 ```
 
 ## Build

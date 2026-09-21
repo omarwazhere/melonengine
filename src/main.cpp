@@ -11,23 +11,39 @@ void printfile(const std::string& path);
 
 int main() {
     std::string command;
-    std::string currentDirectory = "C:";
+    std::string currentDirectory;
     while (true) {
         std::cout << currentDirectory << "> ";
-        std::cin >> command;
-        if (command == "help") {
-            printfile("../docs/help.txt");
-        } else if (command == "info") {
+        std::getline(std::cin, command);
+        if (command == "info") {
             printfile("../docs/info.txt");
-        } else if (command == "cd") {
-            std::cin >> currentDirectory;
-        } else if (command == "prepare") {
+        }
+
+        if (command == "help") {
+            std::system("help");
+
+            printfile("../docs/help.txt");
+            continue;
+        }
+
+        if (command.starts_with("cd")) {
+            currentDirectory = command.substr(3);
+            std::system(("cd /d \"" + currentDirectory + "\"").c_str());
+            continue;
+        }
+
+        if (command == "prepare") {
             std::ofstream main(currentDirectory + "/main.txt");
             main << "# THIS IS THE MAIN FILE";
             main.close();
-        } else {
-            std::cout << "Unknown command";
+            continue;
         }
+
+        if (command == "exit") {
+            break;
+        }
+
+        std::system(command.c_str());
     }
     return 0;
 }

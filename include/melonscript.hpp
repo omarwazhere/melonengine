@@ -21,6 +21,6 @@ struct token {
     std::string value;
 };
 
-std::vector<token> tokenize(std::string source);
+std::vector<token> tokenize(const std::string &path);
 
 #endif

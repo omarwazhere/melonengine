@@ -1,7 +1,9 @@
 #include <chrono>
 #include <iostream>
 #include <thread>
+#ifdef _WIN32
 #include <windows.h>
+#endif
 
 #include "../src/melon/melonlib.hpp"
 
@@ -23,6 +25,7 @@ int main() {
     int x, y;
     bool tamed = false;
     while (true) {
+        #ifdef _WIN32
         if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) {
             break;
         }
@@ -44,6 +47,7 @@ int main() {
         if (GetAsyncKeyState('D') & 0x8000) {
             hero->velocity.velx += 2.0;
         }
+        #endif
 
         hero->move();
         hero->getPosition(x, y);
