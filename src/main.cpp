@@ -1,34 +1,48 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <filesystem>
 
 #include "melon/melonlib.hpp"
 
 World *world = nullptr;
 unsigned int current_id = 0;
 
-void printfile(const std::string& path);
+bool valid_program();
+void run_program();
 
+// MAIN CLI
 int main() {
     std::string command;
     std::string currentDirectory;
+    std::cout << "Welcome to melon CLI! type 'help' to show avalible commands\n";
     while (true) {
         std::cout << currentDirectory << "> ";
         std::getline(std::cin, command);
         if (command == "info") {
-            printfile("../docs/info.txt");
+            std::cout << info;
         }
 
         if (command == "help") {
             std::system("help");
 
-            printfile("../docs/help.txt");
+            std::cout << help;
             continue;
         }
 
-        if (command.starts_with("cd")) {
-            currentDirectory = command.substr(3);
-            std::system(("cd /d \"" + currentDirectory + "\"").c_str());
+        if (command.starts_with("cd ")) {
+            std::filesystem::path newDirectory = command.substr(3);
+
+            std::error_code error;
+            std::filesystem::current_path(newDirectory, error);
+
+            if (error) {
+                std::cout << "Could not change directory: "
+                          << error.message() << '\n';
+            } else {
+                currentDirectory = command.substr(3);
+            }
+
             continue;
         }
 
@@ -36,6 +50,15 @@ int main() {
             std::ofstream main(currentDirectory + "/main.txt");
             main << "# THIS IS THE MAIN FILE";
             main.close();
+            continue;
+        }
+
+        if (command == "run") {
+            if (valid_program()) {
+                run_program();
+            } else {
+                std::cout << "folder is not prepared, type 'prepare' to make it ready to run\n";
+            }
             continue;
         }
 
@@ -48,16 +71,14 @@ int main() {
     return 0;
 }
 
-void printfile(const std::string &path) {
-    std::ifstream file(path);
-    std::string line;
-    if (file.is_open()) {
-        while (std::getline(file, line)) {
-            std::cout << line << '\n';
-        }
-        
-        file.close();
-    } else {
-        std::cerr << "Error opening file for reading! (File may not exist)\n";
+bool valid_program() {
+    std::filesystem::path main = "main.txt";
+    if (std::filesystem::exists(main)) { // And other files but later
+        return true;
     }
+    return false;
+}
+
+void run_program() {
+    tokenize("main.txt");
 }

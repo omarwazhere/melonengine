@@ -1,3 +1,0 @@
-ABOUT:
-This is a silly "game engine", made by Omar (aka omarwazhere on github) (c) 2026, this project is protected
-by the MIT liscence. More information is on the engine's README

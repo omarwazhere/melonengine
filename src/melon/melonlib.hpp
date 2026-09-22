@@ -8,5 +8,7 @@
 #include "../../include/helpers.hpp"
 #include "../../include/types.hpp"
 #include "../../include/world.hpp"
+#include "../../include/melonscript.hpp"
+#include "../../include/docs.hpp"
 
 #endif // MELONLIB_HPP

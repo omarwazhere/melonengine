@@ -1,1 +1,1 @@
-g++ -std=c++23 src/*.cpp -o build/build.exe
+g++ -std=c++23 src/*.cpp src/melonscript/*.cpp -o build/build.exe

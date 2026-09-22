@@ -1,5 +1,0 @@
-
-PLUS, MELONENGINE'S COMMANDS:
-HELP - get help about commands + melonengine commands
-INFO - about the engine
-PREPARE - prepare the directory for the engine
