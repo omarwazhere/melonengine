@@ -82,5 +82,8 @@ bool valid_program() {
 void run_program() {
     std::vector<token> tokens = tokenize("main.txt");
     Parser program_parser(tokens);
+    Memory program_memory;
     program program = program_parser.parse_program();
+    evaluate(program, program_memory);
+    program_memory.printVariables(); // TEST
 }

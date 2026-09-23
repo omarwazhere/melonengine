@@ -115,7 +115,13 @@ class Memory {
 
         void newNum(numVariable var);
         void newStr(strVariable var);
+
+        std::vector<strVariable> getStrs();
+        std::vector<numVariable> getNums();
+
         void printVariables(); // TEST
 };
+
+void evaluate(const program &program, Memory &memory);
 
 #endif

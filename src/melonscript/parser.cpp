@@ -22,10 +22,10 @@ bool Parser::check(tokenType type) {
 
 melon::node Parser::parse_node() {
     if (check(tokenType::NUMBER)) {
-        return melon::number{.value= std::stoi(peak().value)};
+        return melon::number{.value= std::stoi(advance().value)};
     }
     if (check(tokenType::STRING)) {
-        return melon::string{.value= peak().value};
+        return melon::string{.value= advance().value};
     }
     throw std::runtime_error("expected a node");
 }
@@ -95,14 +95,24 @@ assignStatement Parser::parse_assign() {
 
 program Parser::parse_program() {
     program program;
-    while(!at_end()) {
-        if (peak().type == tokenType::INT_TOKEN || peak().type == tokenType::STR_TOKEN) {
-            program.statements.push_back(declareStatement());
+    while (!at_end()) {
+        tokenType current = peak().type;
+
+        if (current == tokenType::EOF_TOKEN) {
+            break;
         }
 
-        if (peak().type == tokenType::IDENTIFIER) {
-            program.statements.push_back(assignStatement());
+        if (current == tokenType::INT_TOKEN || current == tokenType::STR_TOKEN) {
+            program.statements.push_back(parse_declare());
+            continue;
+        }                                          
+
+        if (current == tokenType::IDENTIFIER) {
+            program.statements.push_back(parse_assign());
+            continue;
         }
+
+        throw std::runtime_error("unexpected token in program");
     }
     return program;
 }

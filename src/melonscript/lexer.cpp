@@ -19,6 +19,7 @@ std::vector<token> tokenize(const std::string &path) {
         while (std::getline(file, line)) {
             tokenizeline(tokens, line);
         }
+        tokens.emplace_back(token{.type= tokenType::EOF_TOKEN, .value= ""});
         
         file.close();
     } else {
@@ -49,9 +50,8 @@ void tokenizeline(std::vector<token> &out, std::string line) {
 
         if (std::isalpha(current)) {
             std::string word = "";
-            while (i < line.length() && std::isalnum(current)) {
-                current = line[i];
-                word += current;
+            while (i < line.length() && std::isalnum(line[i])) {
+                word += line[i];
                 ++i;
             }
             --i;
@@ -82,9 +82,8 @@ void tokenizeline(std::vector<token> &out, std::string line) {
         if (current == '"') {
             std::string string;
             ++i;
-            while (i < line.length() && current != '"') {
-                current = line[i];
-                string += current;
+            while (i < line.length() && line[i] != '"') {
+                string += line[i];
                 ++i;
             }
             
@@ -95,6 +94,4 @@ void tokenizeline(std::vector<token> &out, std::string line) {
 
         throw std::runtime_error("Unexpected character: " + std::string(1, current));
     }
-
-    out.emplace_back(token{.type= tokenType::EOF_TOKEN, .value= ""});
 }
