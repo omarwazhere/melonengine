@@ -21,37 +21,6 @@ std::vector<token> tokenize(const std::string &path) {
         }
         
         file.close();
-
-        // TEST
-        std::string typestr;
-        for (const auto &token : tokens) {
-            switch (token.type) {
-                case tokenType::IDENTIFIER:
-                    typestr = "identifier";
-                    break;
-                case tokenType::STRING:
-                    typestr = "string";
-                    break;
-                case tokenType::NUMBER:
-                    typestr = "number";
-                    break;
-                case tokenType::EQUALS:
-                    typestr = "equals";
-                    break;
-                case tokenType::INT_TOKEN:
-                    typestr = "int type";
-                    break;
-                case tokenType::STR_TOKEN:
-                    typestr = "str type";
-                    break;
-                case tokenType::EOF_TOKEN:
-                    typestr = "EOF";
-                    break;
-                default:
-                    break;
-            }
-            std::cout << "type: " << typestr << ", value: " << token.value << '\n';
-        }
     } else {
         std::cerr << "Error opening file for reading! (File may not exist)\n";
     }
