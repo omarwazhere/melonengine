@@ -24,6 +24,3 @@ Object::Object(entityInfo info) : Entity(info) {}
 
 // Base world constructor
 World::World(worldInfo info) : size(info.size), render_dist(info.render_dist), air(info.air) {}
-
-// Parser costructor
-Parser::Parser(std::vector<token> tokens) : tokens(tokens), pos(0) {}

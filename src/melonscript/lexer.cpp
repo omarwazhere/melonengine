@@ -2,96 +2,183 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <variant>
 #include <vector>
 
-#include "../../include/melonscript.hpp"
+#include "../melon/melonlib.hpp"
 
-void tokenizeline(std::vector<token> &out, std::string line);
+void tokenizeline(std::vector<token> &out, const std::string &line);
 
-// Tokenize a full file
 std::vector<token> tokenize(const std::string &path) {
-    std::vector<token> tokens;
-
-    std::ifstream file(path);
-    std::string line;
-
-    if (file.is_open()) {
-        while (std::getline(file, line)) {
-            tokenizeline(tokens, line);
-        }
-        tokens.emplace_back(token{.type= tokenType::EOF_TOKEN, .value= ""});
-        
-        file.close();
-    } else {
-        std::cerr << "Error opening file for reading! (File may not exist)\n";
+	std::ifstream file(path);
+    if (!file) {
+        throw std::runtime_error("file not found");
     }
-    
+
+    std::vector<token> tokens;
+    std::string line;
+    while (std::getline(file, line)) {
+        tokenizeline(tokens, line);
+    }
+    file.close();
+    tokens.emplace_back(token{.type= tokenType::EOFTK, .value= std::monostate{}});
     return tokens;
 }
 
-// Tokenize a line
-void tokenizeline(std::vector<token> &out, std::string line) {
+void tokenizeline(std::vector<token> &out, const std::string &line) {
     char current;
     for (size_t i = 0; i < line.length(); ++i) {
         current = line[i];
-
-        if (std::isspace(current)) {
-            continue; // skip whitespace
-        }
-
-        if (current == '=') {
-            out.emplace_back(token{.type= tokenType::EQUALS, .value= ""});
-            continue;
-        }
 
         if (current == '#') {
             break;
         }
 
+        if (current == ' ') {
+            continue;
+        }
+
+        if (current == '=') {
+            out.emplace_back(token{.type= tokenType::EQUALSTK, .value= std::monostate{}});
+            continue;
+        }
+
+        if (current == ';') {
+            out.emplace_back(token{.type= tokenType::SEMI, .value= std::monostate{}});
+            continue;
+        }
+
+        if (current == '(') {
+            out.emplace_back(token{.type= tokenType::OPEN_PAREN, .value= std::monostate{}});
+            continue;
+        }
+
+        if (current == ')') {
+            out.emplace_back(token{.type= tokenType::CLOSE_PAREN, .value= std::monostate{}});
+            continue;
+        }
+
+        if (current == '{') {
+            out.emplace_back(token{.type= tokenType::OPEN_CBRACE, .value= std::monostate{}});
+            continue;
+        }
+
+        if (current == '}') {
+            out.emplace_back(token{.type= tokenType::CLOSE_CBRACE, .value= std::monostate{}});
+            continue;
+        }
+
+        if (current == '+' || current == '-' || current == '*' || current == '/') {
+            out.emplace_back(token{.type= tokenType::BINARYOP, .value=
+            current == '+' ? binaryOp::PLUS : current == '-' ? binaryOp::MINUS :
+            current == '*' ? binaryOp::MULTIPLY : binaryOp::DIV
+            });
+            continue;
+        }
+
         if (std::isalpha(current)) {
-            std::string word = "";
+            std::string word;
             while (i < line.length() && std::isalnum(line[i])) {
                 word += line[i];
                 ++i;
             }
-            --i;
-            
-            if (word == "str") {
-                out.emplace_back(token{.type= tokenType::STR_TOKEN, .value= ""});
-            } else if (word == "int") {
-                out.emplace_back(token{.type= tokenType::INT_TOKEN, .value= ""});
-            } else {
-                out.emplace_back(token{.type= tokenType::IDENTIFIER, .value= word});
+
+            if (word == "int") {
+                out.emplace_back(token{.type= tokenType::INTTYPE, .value= std::monostate{}});
+                continue;
             }
+
+            if (word == "str") {
+                out.emplace_back(token{.type= tokenType::STRTYPE, .value= std::monostate{}});
+                continue;
+            }
+
+            if (word == "float") {
+                out.emplace_back(token{.type= tokenType::FLOATTYPE, .value= std::monostate{}});
+                continue;
+            }
+
+            if (word == "char") {
+                out.emplace_back(token{.type= tokenType::CHARTYPE, .value= std::monostate{}});
+                continue;
+            }
+
+            out.emplace_back(token{.type= tokenType::IDENTIFIERTK, .value= word});
             continue;
         }
 
         if (std::isdigit(current)) {
-            std::string number = "";
-            while (i < line.length() && std::isdigit(current)) {
-                current = line[i];
-                number += current;
-                ++i;
+            std::string word;
+            bool is_float = false;
+            bool had_decimal = false;
+
+            while (i < line.length()) {
+                char ch = line[i];
+
+                if (std::isdigit(static_cast<unsigned char>(ch))) {
+                    word += ch;
+                    ++i;
+                    continue;
+                }
+
+                if (ch == '.' && !had_decimal) {
+                    word += ch;
+                    had_decimal = true;
+                    ++i;
+                    continue;
+                }
+
+                break;
             }
-            --i;
-            
-            out.emplace_back(token{.type= tokenType::NUMBER, .value= number});
+
+            if (i + 1 < line.size()) {
+                if (line[i + 1] == 'f') {
+                    is_float = true;
+                }
+            }
+
+            if (is_float) {
+                out.emplace_back(token{.type= tokenType::FLOATTK, .value= std::stof(word)});
+                continue;
+            }
+            out.emplace_back(token{.type= tokenType::INTTK, .value= std::stoi(word)});
             continue;
         }
 
         if (current == '"') {
-            std::string string;
             ++i;
-            while (i < line.length() && line[i] != '"') {
-                string += line[i];
+            std::string value;
+
+            while (i < line.size() && line[i] != '"') {
+                value += line[i];
                 ++i;
             }
-            
-            out.emplace_back(token{.type= tokenType::STRING, .value= string});
 
+            if (i >= line.size()) {
+                throw std::runtime_error("expected closing quote");
+            }
+
+            out.emplace_back(token{.type = tokenType::STRTK, .value = value});
             continue;
         }
 
-        throw std::runtime_error("Unexpected character: " + std::string(1, current));
+        if (current == '\'') {
+            ++i;
+            if (i >= line.size()) {
+                throw std::runtime_error("expected character");
+            }
+
+            char character = line[i];
+
+            if (i + 1 < line.size()) {
+                if (line[++i] == '\'') {
+                    out.emplace_back(token{.type= tokenType::CHARTK, .value= character});
+                    continue;
+                }
+            }
+            throw std::runtime_error("expected closing quote");
+        } 
+
+        throw std::runtime_error(std::string("bad token: ") + current);
     }
 }
