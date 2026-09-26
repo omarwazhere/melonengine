@@ -18,6 +18,8 @@ melonEngine/
 ├── .gitignore
 ├── .vscode/
 ├── build/
+│   ├── build.exe
+│   └── test.exe
 ├── build.ps1
 ├── buildtest.ps1
 ├── include/
@@ -25,7 +27,10 @@ melonEngine/
 │   ├── entity.hpp
 │   ├── globals.hpp
 │   ├── helpers.hpp
-│   ├── melonscript.hpp
+│   ├── melonscript/
+│   │   ├── bytecode.hpp
+│   │   ├── lexer.hpp
+│   │   └── vm.hpp
 │   ├── types.hpp
 │   └── world.hpp
 ├── LICENSE
@@ -39,7 +44,7 @@ melonEngine/
 │   │   └── melonlib.hpp
 │   ├── melonscript/
 │   │   ├── lexer.cpp
-│   │   └── parser.cpp
+│   │   └── vm.cpp
 │   └── world.cpp
 ├── test/
 │   └── foo_test.cpp
