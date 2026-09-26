@@ -85,7 +85,16 @@ bool valid_program() {
 void run_program() {
     const std::vector<token> tokens = tokenize("main.txt");
 
-    print_tokens(tokens);
+    // TEST
+    std::vector<instruction> instructions = {
+        {opCode::OP_PUSH, 2},
+        {opCode::OP_PUSH, 4},
+        {opCode::OP_ADD},
+        {opCode::OP_PRINTLN},
+        {opCode::OP_HALT}
+    };
+    virtualMachine sillyVM(instructions);
+    sillyVM.run();
 }
 
 void print_tokens(std::vector<token> tokens) {

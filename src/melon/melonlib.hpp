@@ -11,7 +11,7 @@
 #include "../../include/docs.hpp"
 
 #include "../../include/melonscript/lexer.hpp"
-#include "../../include/melonscript/memory.hpp"
-#include "../../include/melonscript/parser.hpp"
+#include "../../include/melonscript/bytecode.hpp"
+#include "../../include/melonscript/vm.hpp"
 
 #endif // MELONLIB_HPP

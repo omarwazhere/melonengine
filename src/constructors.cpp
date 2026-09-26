@@ -24,3 +24,6 @@ Object::Object(entityInfo info) : Entity(info) {}
 
 // Base world constructor
 World::World(worldInfo info) : size(info.size), render_dist(info.render_dist), air(info.air) {}
+
+// Virtual machine constructor
+virtualMachine::virtualMachine(std::vector<instruction> instructions) : instructions(instructions) {}
