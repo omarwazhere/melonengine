@@ -69,6 +69,9 @@ void virtualMachine::run() {
             case opCode::LOAD:
                 push(globals[current.value]);
                 break;
+            case opCode::JUMP:
+                ip = current.value;
+                break;
             default:
                 throw std::runtime_error("Unknown op code");
         }
