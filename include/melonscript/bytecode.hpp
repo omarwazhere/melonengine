@@ -14,7 +14,8 @@ enum opCode : uint8_t {
     PRINT = 7,
     PRINTLN = 8,
     STORE = 9,
-    LOAD = 10
+    LOAD = 10,
+    JUMP = 11
 };
 
 struct instruction {
