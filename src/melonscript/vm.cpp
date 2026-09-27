@@ -24,40 +24,50 @@ void virtualMachine::run() {
     while (ip < instructions.size() && is_running) {
         instruction current = instructions[ip++];
         switch (current.code) {
-            case opCode::OP_HALT:
+            case opCode::HALT:
                 is_running = false;
                 break;
-            case opCode::OP_PUSH:
+            case opCode::PUSH:
                 push(current.value);
                 break;
-            case opCode::OP_POP:
+            case opCode::POP:
                 pop();
                 break;
-            case opCode::OP_ADD:
+            case opCode::ADDOP:
                 a = pop();
                 b = pop();
                 push(a + b);
                 break;
-            case opCode::OP_SUB:
+            case opCode::SUBOP:
                 a = pop();
                 b = pop();
                 push(a - b);
                 break;
-            case opCode::OP_MUL:
+            case opCode::MULOP:
                 a = pop();
                 b = pop();
                 push(a * b);
                 break;
-            case opCode::OP_DIV:
+            case opCode::DIVOP:
                 a = pop();
                 b = pop();
                 push(a / b);
                 break;
-            case opCode::OP_PRINT:
+            case opCode::PRINT:
                 std::cout << pop();
                 break;
-            case opCode::OP_PRINTLN:
+            case opCode::PRINTLN:
                 std::cout << pop() << '\n';
+                break;
+            case opCode::STORE:
+                if (current.value >= globals.size()) {
+                    globals.push_back(pop());
+                } else {
+                    globals[current.value] = pop();
+                }
+                break;
+            case opCode::LOAD:
+                push(globals[current.value]);
                 break;
             default:
                 throw std::runtime_error("Unknown op code");

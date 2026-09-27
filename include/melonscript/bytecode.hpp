@@ -4,15 +4,17 @@
 #include <cstdint>
 
 enum opCode : uint8_t {
-    OP_HALT = 0,
-    OP_PUSH = 1,
-    OP_POP = 2,
-    OP_ADD = 3,
-    OP_SUB = 4,
-    OP_MUL = 5,
-    OP_DIV = 6,
-    OP_PRINT = 7,
-    OP_PRINTLN = 8
+    HALT = 0,
+    PUSH = 1,
+    POP = 2,
+    ADDOP = 3,
+    SUBOP = 4,
+    MULOP = 5,
+    DIVOP = 6,
+    PRINT = 7,
+    PRINTLN = 8,
+    STORE = 9,
+    LOAD = 10
 };
 
 struct instruction {

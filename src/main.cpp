@@ -87,11 +87,17 @@ void run_program() {
 
     // TEST
     std::vector<instruction> instructions = {
-        {opCode::OP_PUSH, 2},
-        {opCode::OP_PUSH, 4},
-        {opCode::OP_ADD},
-        {opCode::OP_PRINTLN},
-        {opCode::OP_HALT}
+        {opCode::PUSH, 2},
+        {opCode::STORE, 0},
+        {opCode::PUSH, 8},
+        {opCode::STORE, 1},
+        {opCode::LOAD, 0},
+        {opCode::PRINTLN},
+        {opCode::LOAD, 0},
+        {opCode::LOAD, 1},
+        {opCode::ADDOP},
+        {opCode::PRINTLN},
+        {opCode::HALT}
     };
     virtualMachine sillyVM(instructions);
     sillyVM.run();

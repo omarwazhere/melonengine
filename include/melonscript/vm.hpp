@@ -12,6 +12,7 @@ class virtualMachine {
     std::stack<int32_t> stack;
     bool is_running = false;
     size_t ip = 0;
+    std::vector<int32_t> globals;
 
     int32_t pop();
     void push(int32_t val);
