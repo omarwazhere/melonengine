@@ -13,5 +13,6 @@
 #include "../../include/melonscript/lexer.hpp"
 #include "../../include/melonscript/bytecode.hpp"
 #include "../../include/melonscript/vm.hpp"
+#include "../../include/melonscript/parser.hpp"
 
 #endif // MELONLIB_HPP

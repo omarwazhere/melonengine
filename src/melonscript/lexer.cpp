@@ -103,6 +103,8 @@ void tokenizeline(std::vector<token> &out, const std::string &line) {
                 continue;
             }
 
+            --i;
+            
             out.emplace_back(token{.type= tokenType::IDENTIFIERTK, .value= word});
             continue;
         }
@@ -127,6 +129,8 @@ void tokenizeline(std::vector<token> &out, const std::string &line) {
                     ++i;
                     continue;
                 }
+
+                --i;
 
                 break;
             }

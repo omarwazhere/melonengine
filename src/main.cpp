@@ -84,13 +84,14 @@ bool valid_program() {
 
 void run_program() {
     const std::vector<token> tokens = tokenize("main.txt");
+    print_tokens(tokens);
+    Parser sillyParser(tokens);
+    std::vector<instruction> instructions = sillyParser.parse_program();
 
-    // TEST
-    std::vector<instruction> instructions = {
-        {opCode::PUSH, 0},
-        {opCode::PRINTLN},
-        {opCode::JUMP, 0}
-    };
+    instructions.emplace_back(LOAD, 0);
+    instructions.emplace_back(PRINTLN);
+    instructions.emplace_back(HALT);
+    
     virtualMachine sillyVM(instructions);
     sillyVM.run();
 }

@@ -11,14 +11,17 @@
 #include <vector>
 
 class Parser {
-    size_t it;
+    size_t it = 0;
     std::vector<token> tokens;
+
+    bool is_at_end();
+    bool check(tokenType type);
 
     token peek();
     token advance();
-    token eat(tokenType type, std::string value = "", std::string error);
+    token match(tokenType type, std::string error);
     public:
-        Parser(std::vector<token> tokens);
+        Parser(std::vector<token> tokens) : tokens(tokens) {};
 
         std::vector<instruction> parse_program();
 
